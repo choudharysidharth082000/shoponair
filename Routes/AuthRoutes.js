@@ -47,8 +47,9 @@ router.post('/login',async (req, res)=>
         {
           status: true,
           message: "Login In Success",
+          _id: userCheck._id,
           data:userCheck,
-          data2: userCheck,
+          
           accessToken: accessToken
         }
       )
