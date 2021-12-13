@@ -1,0 +1,496 @@
+swagger: "2.0.0"
+info:
+  title: ShopOnAir
+  description: Api documentation for the shoponair website
+  version: 1.0.0
+  contact:
+    email: choudharysidharth082000@gmail.com
+  servers:
+    - url: "http://localhost:3000"
+      description: "Local Server Running"
+    - url: "https://shoponairbackend.herokuapp.com"
+      description: "Main Server"
+
+schemes: [http, https]
+
+paths:
+ 
+  
+  /v1/auth/socialLogin:
+    post:
+      tags:
+        - name: Auth
+      summary: Social Login
+      description: lorem
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+        - in: body
+          name: auth
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              school:
+                type: string
+              phoneNumber:
+                type: string
+              name:
+                type: string
+              loginType:
+                type: string
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found 
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+  /v1/admin/blockUser/{userID}:
+    put: 
+      tags:
+        - name: Admin
+      name: Block/Unblock User
+      description: Block/Unblock the user 
+      consumes:
+        multipart/formdata
+      produces:
+        application/json
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+        - name: status
+          in: formData
+          type: boolean
+          required: true
+      responses:
+        200:
+          description: OK
+
+      
+  /v1/profile/testAddProfile/{userID}:
+    put:
+      tags:
+        - name: User Profile
+      name: Test Add Profile
+      description: This api will add the data in the profile for the user
+      consumes:
+        multipart/formdata
+      produces:
+        application/json
+      parameters:
+        - name: userID
+          in: path
+          type: string 
+          required: true
+        - name: name
+          in: formData
+          type: string
+          required: true
+        - name: mobileNumber
+          in: formData
+          type: string
+          required: true
+        - name: facebookID
+          in: formData
+          type: string
+          required: true
+        - name: instagramID
+          in: formData
+          type: string
+          required: true
+        - name: whatsappNumber
+          in: formData
+          type: string
+          required: true
+        - name: testProfileImage
+          in: formData
+          type: file
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/website/getWebsites/{offset}/{limit}:
+    get:
+      tags:
+        - name: Website
+      name: Getting all the websites
+      description: Getting all the websites in the main admin page
+      parameters:
+        - name: offset
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/auth/getUserByID/{userID}:
+    get: 
+      tags:
+        - name: Auth
+      name: Getting User By ID 
+      description: Getting all the users by id
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/website/getWebsiteByUser/{userID}/{offset}/{limit}:
+    get:
+      tags:
+        - name: Website
+      name: Getting all the websites of particular user
+      description: Getting all the websites in the main admin page
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+        - name: offset
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/profile/profileGet/{userID}:
+    get:
+      tags:
+        - name: User Profile
+      name: Getting user Profile By ID
+      description: lorem
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+
+  /v1/admin/deleteUser/{userID}:
+    delete:
+      tags:
+        - name: Admin
+      name: Delete User
+      description: Deleting the user
+      parameters:
+        - name: userID
+          in: path 
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+  /v1/website/deleteWebsite/{websiteID}:
+    delete:
+        tags:
+          - name: Website
+        name: Deleting Website
+        description: Deleting the website for the database
+        parameters:
+          - name: websiteID
+            in: path
+            type: string
+            required: true
+        responses:
+          200:
+            description: OK
+
+
+  /v1/website/getWebsiteByID/{websiteID}:
+    get:
+      tags:
+        - name: Website
+      name: Get Website By Website Website ID
+      description: Getting the website
+      parameters:
+        - name: websiteID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/profile/deleteProfile/{userID}:
+    delete:
+      tags:
+        - name: User Profile
+      name: Delete the user Profile
+      description: This will delete the user Profile of the user
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/profile/getAllProfiles/{offset}/{limit}:
+    get:
+      tags:
+        - name: User Profile
+      name: Getting all the profiles
+      description: This api will give the data of all the profiles in the database
+      parameters:
+        - name: offset
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+        
+  /v1/profile/addprofile/{userID}:
+    post:
+      tags:
+        - name: User Profile
+      name: Add User Profile
+      description: Adding the user Profile if present
+      consumes:
+        multipart/formdata
+      produces:
+        application/json
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+        - name: name
+          in: formData
+          type: string
+          required: true
+        - name: mobileNumber
+          in: formData
+          type: string
+          required: true
+        - name: facebookID
+          in: formData
+          type: string
+          required: true
+        - name: instagramID
+          in: formData
+          type: string
+          required: true
+        - name: whatsappNumber
+          in: formData
+          type: string
+          required: true
+        - name: profileImage
+          in: formData
+          type: file
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/profile/editProfile/{userID}:
+    put:
+      tags:
+        - name: User Profile
+      name: Edit User Profile
+      description: Edtiing the user Profile if present
+      consumes:
+        multipart/formdata
+      produces:
+        application/json
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+        - name: name
+          in: formData
+          type: string
+          required: true
+        - name: mobileNumber
+          in: formData
+          type: string
+          required: true
+        - name: facebookID
+          in: formData
+          type: string
+          required: true
+        - name: instagramID
+          in: formData
+          type: string
+          required: true
+        - name: whatsappNumber
+          in: formData
+          type: string
+          required: true
+        - name: profileImage
+          in: formData
+          type: file
+          required: true
+      responses:
+        200:
+          description: OK
+  # /v1/profile/editProfile/{userID}:
+  #   put:
+  #     tags:
+  #       - name: User Profile
+  #     name: Edits the users Profile
+  #     description: This api will edit the users profile
+  #     parameters:
+  #       - name: userID
+  #         in: path
+  #         type: string
+  #         required: true
+  #       - name: name
+  #         in: formData
+  #         type: string
+  #         required: true
+  #       - name: mobileNumber
+  #         in: formData
+  #         type: string
+  #         required: true
+  #       - name: facebookID
+  #         in: formData
+  #         type: string
+  #         required: true
+  #       - name: instagramID
+  #         in: formData
+  #         type: string
+  #         required: true
+  #       - name: whatsappNumber
+  #         in: formData
+  #         type: string
+  #         required: true
+  #       - name: profileImage
+  #         in: formData
+  #         type: file
+  #         required: true
+  #     responses:
+  #       200:
+  #         description: OK
+  /v1/website/addWebsite/{userID}:
+    post:
+      tags:
+        - name: Website
+      name: Creating Website
+      description: This api will create the website for the User
+      consumes:
+        multipart/formdata
+      produces:
+        application/json
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+        - name: siteName
+          in: formData
+          type: string
+          required: true
+        - name: siteURL
+          in: formData
+          type: string
+          required: true
+        - name: consumerKey
+          in: formData
+          type: string
+          required: true
+        - name: consumerSecret
+          in: formData
+          type: string
+          required: true
+        - name: discription
+          in: formData
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/website/editWebsite/{userID}/{websiteID}:
+    put:
+      tags:
+        - name: Website
+      name: Edting Website
+      description: This api will edit the website for the User
+      consumes:
+        multipart/formdata
+      produces:
+        application/json
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+        - name: websiteID
+          in: path
+          type: string
+          required: true
+        - name: siteName
+          in: formData
+          type: string
+          required: true
+        - name: siteURL
+          in: formData
+          type: string
+          required: true
+        - name: consumerKey
+          in: formData
+          type: string
+          required: true
+        - name: consumerSecret
+          in: formData
+          type: string
+          required: true
+        - name: discription
+          in: formData
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+
+        
+
+  /v1/auth/getUsers/{offset}/{limit}:
+    get:
+      tags:
+        - name: Auth
+      name: Getting all the users
+      description: This api will get all the users present in the website
+      consumes:
+        multipart/formdata
+      produces:
+        application/json
+      parameters:
+        - name: offset
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+    
+  
