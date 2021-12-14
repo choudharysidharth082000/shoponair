@@ -141,7 +141,7 @@ router.post('/addProfile/:userID',upload.fields([
 
 
 //edit profile for the user 
-router.put('/editProfile/:userID', async(req, res)=>
+router.put('/editProfile/:userID',upload.single('profileImage'), async(req, res)=>
 {
     console.log(req.params.userID);
     console.log(req.body);
@@ -167,7 +167,7 @@ router.put('/editProfile/:userID', async(req, res)=>
         try {
 
             //checking the user
-            const findUser = await userProfile.findOne({_id: req.params.userID});
+            const findUser = await userProfile.findOne({userID: req.params.userID});
             if(!findUser)
             {
                 res.status(404).json(
@@ -180,15 +180,18 @@ router.put('/editProfile/:userID', async(req, res)=>
             else 
             {
                 //edit the user profile
-                const editProfile = await userProfile.updateMany({_id: req.params.userID}, 
+                const editProfile = await userProfile.updateMany({userID: req.params.userID}, 
                     {
                         name: name,
                         mobileNumber: mobileNumber,
                         facebookID: facebookID,
                         instagramID: instagramID,
-                        whatsappNumber: whatsappNumber
+                        whatsappNumber: whatsappNumber,
+                        profilePhoto: req.file.path
                         
                     })
+
+                    
 
                     res.status(200).json(
                         {

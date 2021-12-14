@@ -17,6 +17,7 @@ router.post('/login',async (req, res)=>
   console.log("Login IS Running");
 
   console.log("login ka data");
+  console.log(req.body);
   // console.log(req.body);
 
   let arr=Object.keys(req.body);

@@ -1,54 +1,61 @@
-// const app = require("../../server");
-// const mongoose = require("mongoose");
-// const supertest = require("supertest");
-// const dotenv = require('dotenv');
-// const {userProfile} = require('../../models/userProfile');
-// const { getMaxListeners } = require("superagent");
-// dotenv.config();
-// const test = process.env.DB
+const app = require("../../server");
+const mongoose = require("mongoose");
+const supertest = require("supertest");
+const dotenv = require('dotenv');
+const {userProfile} = require('../../models/userProfile');
+const { getMaxListeners } = require("superagent");
+dotenv.config();
+const test = process.env.DB
 
 
 
 
 
-// beforeAll((done)=>
-// {
-//   mongoose.connect(test, ()=>
-//   {
-//     console.log('Connected DB');
-//     done();
-//   })
+beforeAll((done)=>
+{
+  mongoose.connect(test, ()=>
+  {
+    console.log('Connected DB');
+    done();
+  })
   
 
-// })
+})
+
+afterAll((done)=>
+{
+    mongoose.connection.close();
+    done();
+})
 
 
-// it('This to be this', ()=>
-// {
-//   expect('this').toBe('this')
-// })
+it('This to be this', ()=>
+{
+  expect('this').toBe('this')
+})
 
 
-// describe('Checking the profile section of the Backend ', ()=>
-// {
-//   it('GET v1/profile/getAllProfiles/1/1', async ()=>
-//   {
-//     try {
-//       await supertest(app).get('/v1/profile/getAllProfile/1/1').then((res)=>
-//       {
-//         expect(res.body.status).toBe(true)
-//       }).catch((err)=>
-//       {
-//         console.log(err)
-//       })
+describe('Checking the profile section of the Backend ', ()=>
+{
+  it('GET v1/profile/getAllProfiles/1/1', async ()=>
+  {
+    try {
+      await supertest(app).get('/v1/profile/getAllProfile/1/1').then((res)=>
+      {
+          console.log(res.body);
+        expect(res.body.status).toBe(true)
+      }).catch((err)=>
+      {
+        console.log(err)
+      })
       
-//     } catch (error) {
+    } catch (error) {
       
-//       console.log(error);
-//     }
+      console.log(error);
+    }
     
-//   })
-// })
+  })
+})
 
 
 // // describe('Checking the profile GET apis for the app', ()=>
