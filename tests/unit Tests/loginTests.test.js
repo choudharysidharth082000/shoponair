@@ -6,6 +6,10 @@ const {userProfile} = require('../../models/userProfile');
 const { getMaxListeners } = require("superagent");
 dotenv.config();
 const test = process.env.DB
+const bodyParser = require('body-parser');
+
+
+
 
 
 
@@ -13,6 +17,11 @@ const test = process.env.DB
 //Connect The Database Before the working of all test
 beforeAll((done)=>
 {
+  //body parser configurations 
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
   mongoose.connect(test, ()=>
   {
     console.log('Connected DB');
@@ -31,7 +40,7 @@ afterAll((done)=>
 
 it('This to be this', ()=>
 {
-  expect('this').toBe('this')
+  expect(true).toBe(true)
 })
 
 
@@ -45,7 +54,7 @@ describe('Checking the profile GET apis for the app', ()=>
   {
     await supertest(app).get('/v1/profile/getAllProfiles/1/2').then((response)=>
     {
-      console.log(response.body);
+      
       expect(response.body.status).toBe(true)
 
     })
@@ -65,7 +74,7 @@ describe('Checking the profile GET apis for the app', ()=>
       }
       else
       {
-        console.log(checkAPI.body);
+        
         expect(checkAPI.body.status).toBe(true);
       }
       
@@ -111,7 +120,7 @@ describe('POST APIS for the user Profile',  ()=>
   //   }
   // })
   //editing the user profile
-  it('POST v1/addProfile/:userID', async()=>
+  it('PUT v1/addProfile/:userID', async()=>
   {
     let data = 
     {
@@ -131,7 +140,7 @@ describe('POST APIS for the user Profile',  ()=>
       }
       else 
       {
-        console.log(checkTest.body);
+        
         expect(checkTest.body.status).toEqual(true);
       }
 
@@ -143,6 +152,106 @@ describe('POST APIS for the user Profile',  ()=>
   })
 
 })
+
+it('GET Invalid Api data (should give an error)', async()=>
+{
+  try {
+    await supertest(app).get('/v1/profile/getAllProfile/1/0').
+    then((res)=>
+    {
+      console.log(res.body);
+    }).catch((error)=>
+    {
+      console.log(error);
+    })
+
+
+  
+    
+  } catch (error) {
+    
+    console.log(error);
+  }
+})
+
+
+it('GET v1/profile/profileGet/61a8e2b25e34ccab82003763', async()=>
+{
+  try {
+    const getUser = await supertest(app).get('/v1/profile/profileGet/61a8e2b25e34ccab82003763');
+
+    if(!getUser)
+    {
+      console.log("User Not Found");
+
+    }
+    else 
+    {
+      
+      expect(getUser.body.status).toBe(false);
+
+    }
+    
+  } catch (error) {
+    
+    console.log(error);
+  }
+})
+
+it('Checking the failure of the Edit API with wrong User ID', async()=>
+{
+  try {
+    const data = {
+      name: 'Sidharth'
+    }
+    
+
+    const editUser = await supertest(app).put('/v1/profile/editProfile/61a8e2b25e34ccab82003763').send(data);
+
+    if(!editUser)
+    {
+      console.log("Api not Worked")
+    }
+    else
+    {
+      
+      expect(editUser.body.status).toBe(false);
+    }
+  } catch (error) {
+    
+    
+    console.log(error);
+  }
+})
+
+
+
+it('Checking the User with Invalid Credentials', async ()=>
+{
+  try {
+    const data = 
+    {
+      name: "Sidharth"
+    }
+    const editUser = await supertest(app).put('/v1/editProfile/61a8e2b25e34ccab82003763').send(data);
+
+    if(!editUser)
+    {
+      console.log("Api is not Working")
+    }
+    else 
+    {
+      
+      expect(editUser.body.status).toBe(false);
+
+    }
+    
+  } catch (error) {
+    
+    console.log(error);
+  }
+})
+
 
 
 // // describe('Testing the post apis for the server', ()=>

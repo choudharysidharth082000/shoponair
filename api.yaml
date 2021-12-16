@@ -53,6 +53,68 @@ paths:
           description: Invalid Credentials
         500:
           description: Internal Server Error
+  /v1/category/createCategory:
+    post:
+      tags:
+        - name: Catgegory
+      name: Create Catgegory
+      description: lorem
+      parameters:
+        - in: body
+          name: auth
+          schema:
+            type: object
+            properties:
+              nameCategory:
+                type: string
+              descriptionCategory:
+                type: string
+              
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found 
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+  /v1/category/editCategory/{categoryID}:
+    put:
+      tags:
+        - name: Catgegory
+      name: Create Catgegory
+      description: lorem
+      parameters:
+        - name: categoryID
+          in: path
+          type: string
+          required: true
+        - in: body
+          name: auth
+          schema:
+            type: object
+            properties:
+              nameCategory:
+                type: string
+              descriptionCategory:
+                type: string
+              
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found 
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+
+  
   /v1/admin/blockUser/{userID}:
     put: 
       tags:
@@ -71,6 +133,21 @@ paths:
         - name: status
           in: formData
           type: boolean
+          required: true
+      responses:
+        200:
+          description: OK
+
+  /v1/category/deleteCategory/{categoryID}:
+    delete:
+      tags:
+        - name: Catgegory
+      name: Delete categoryID
+      description: lorem
+      parameters:
+        - name: categoryID
+          in: path
+          type: string
           required: true
       responses:
         200:
@@ -134,6 +211,39 @@ paths:
           in: path
           type: string
           required: true
+      responses:
+        200:
+          description: OK
+  /v1/category/getAllCategory/{offset}/{limit}:
+    get: 
+      tags: 
+        - name: Catgegory
+      name: Get All Categories
+      description: lorem
+      parameters:
+        - name: offset
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/category/categoryGet/{categoryID}:
+    get: 
+      tags: 
+        - name: Catgegory
+      name: Get All Categories By Id
+      description: lorem
+      parameters:
+        - name: categoryID
+          in: path
+          type: string
+          required: true
+       
       responses:
         200:
           description: OK

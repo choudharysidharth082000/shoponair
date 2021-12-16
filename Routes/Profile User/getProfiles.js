@@ -12,36 +12,54 @@ const {user} = require('../../models/Auth');
 
 router.get('/getAllProfiles/:offset/:limit', async(req, res)=>
 {
-    const limit = parseInt(req.params.limit);
-    const offset = (parseInt(req.params.offset)-1)* limit;
-    try {
-        const users = await userProfile.find({},{},{sort:
-        {
-            'createdAt': -1
-        }}).limit(limit).skip(offset);
-        if(!user)
-        {
-            res.status(200).json(
-                {
-                    status: false,
-                    message: "User Not Found"
-                }
-            )
-        }
-        else 
-        {
-            res.status(200).json(
-                {
-                    status: true,
-                    users: users
-                }
-            )
-        }
-        
-    } catch (error) {
-        
-        console.log(error);
+    console.log(parseInt(req.params.offset))
+    console.log(parseInt(req.params.limit))
+    
+    if(parseInt(req.params.offset) <= 0 || parseInt(req.params.limit) <= 0)
+    {
+        res.status(403).json(
+            {
+                status: false,
+                message: "Invalid Offset or Limit"
+            }
+        )
     }
+       
+    else{
+        const limit = parseInt(req.params.limit);
+    const offset = (parseInt(req.params.offset)-1)* limit;
+
+        try {
+            const users = await userProfile.find({},{},{sort:
+            {
+                'createdAt': -1
+            }}).limit(limit).skip(offset);
+            if(!user)
+            {
+                res.status(200).json(
+                    {
+                        status: false,
+                        message: "User Not Found"
+                    }
+                )
+            }
+            else 
+            {
+                res.status(200).json(
+                    {
+                        status: true,
+                        users: users
+                    }
+                )
+            }
+            
+        } catch (error) {
+            
+            console.log(error);
+        }
+
+    }
+    
 })
 
 //getting the progile by user id
