@@ -6,6 +6,10 @@ const {userProfile} = require('../../models/userProfile');
 const { getMaxListeners } = require("superagent");
 dotenv.config();
 const test = process.env.DB
+const bodyParser = require('body-parser');
+
+
+
 
 
 
@@ -13,6 +17,11 @@ const test = process.env.DB
 //Connect The Database Before the working of all test
 beforeAll((done)=>
 {
+  //body parser configurations 
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
   mongoose.connect(test, ()=>
   {
     console.log('Connected DB');
@@ -31,7 +40,7 @@ afterAll((done)=>
 
 it('This to be this', ()=>
 {
-  expect('this').toBe('this')
+  expect(true).toBe(true)
 })
 
 
@@ -111,7 +120,7 @@ describe('POST APIS for the user Profile',  ()=>
   //   }
   // })
   //editing the user profile
-  it('POST v1/addProfile/:userID', async()=>
+  it('PUT v1/addProfile/:userID', async()=>
   {
     let data = 
     {
@@ -143,6 +152,52 @@ describe('POST APIS for the user Profile',  ()=>
   })
 
 })
+
+it('GET Invalid Api data (should give an error)', async()=>
+{
+  try {
+    await supertest(app).get('/v1/profile/getAllProfile/1/0').
+    then((res)=>
+    {
+      console.log(res.body);
+    }).catch((error)=>
+    {
+      console.log(error);
+    })
+
+
+  
+    
+  } catch (error) {
+    
+    console.log(error);
+  }
+})
+
+
+it('GET v1/profile/profileGet/61a8e2b25e34ccab82003763', async()=>
+{
+  try {
+    const getUser = await supertest(app).get('/v1/profile/profileGet/61a8e2b25e34ccab82003763');
+
+    if(!getUser)
+    {
+      console.log("User Not Found");
+
+    }
+    else 
+    {
+      console.log(getUser.body);
+      expect(getUser.body.status).toBe(false);
+
+    }
+    
+  } catch (error) {
+    
+    console.log(error);
+  }
+})
+
 
 
 // // describe('Testing the post apis for the server', ()=>
