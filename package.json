@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --watch-all --detectOpenHandles",
-    "start": "nodemon serverConnection.js"
+    "start": "node serverConnection.js"
   },
   "author": "",
   "license": "ISC",
