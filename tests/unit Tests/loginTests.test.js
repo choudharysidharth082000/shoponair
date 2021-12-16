@@ -54,7 +54,7 @@ describe('Checking the profile GET apis for the app', ()=>
   {
     await supertest(app).get('/v1/profile/getAllProfiles/1/2').then((response)=>
     {
-      console.log(response.body);
+      
       expect(response.body.status).toBe(true)
 
     })
@@ -74,7 +74,7 @@ describe('Checking the profile GET apis for the app', ()=>
       }
       else
       {
-        console.log(checkAPI.body);
+        
         expect(checkAPI.body.status).toBe(true);
       }
       
@@ -140,7 +140,7 @@ describe('POST APIS for the user Profile',  ()=>
       }
       else 
       {
-        console.log(checkTest.body);
+        
         expect(checkTest.body.status).toEqual(true);
       }
 
@@ -187,8 +187,62 @@ it('GET v1/profile/profileGet/61a8e2b25e34ccab82003763', async()=>
     }
     else 
     {
-      console.log(getUser.body);
+      
       expect(getUser.body.status).toBe(false);
+
+    }
+    
+  } catch (error) {
+    
+    console.log(error);
+  }
+})
+
+it('Checking the failure of the Edit API with wrong User ID', async()=>
+{
+  try {
+    const data = {
+      name: 'Sidharth'
+    }
+    
+
+    const editUser = await supertest(app).put('/v1/profile/editProfile/61a8e2b25e34ccab82003763').send(data);
+
+    if(!editUser)
+    {
+      console.log("Api not Worked")
+    }
+    else
+    {
+      
+      expect(editUser.body.status).toBe(false);
+    }
+  } catch (error) {
+    
+    
+    console.log(error);
+  }
+})
+
+
+
+it('Checking the User with Invalid Credentials', async ()=>
+{
+  try {
+    const data = 
+    {
+      name: "Sidharth"
+    }
+    const editUser = await supertest(app).put('/v1/editProfile/61a8e2b25e34ccab82003763').send(data);
+
+    if(!editUser)
+    {
+      console.log("Api is not Working")
+    }
+    else 
+    {
+      
+      expect(editUser.body.status).toBe(false);
 
     }
     

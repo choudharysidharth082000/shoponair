@@ -11,8 +11,14 @@ const getCategory = require('./CategoryGet');
 //creatinf category
 router.post('/createCategory', async (req, res)=>
 {
+    console.log(req.body);
     try {
-        const createCategory = await new category(req.body);
+        const createCategory = await new category(
+            {
+                nameCategory: req.body.nameCategory,
+                descriptionCategory:req.body.descriptionCategory
+            }
+        );
         if(!createCategory)
         {
             res.status(500).json(
@@ -35,6 +41,7 @@ router.post('/createCategory', async (req, res)=>
         }
         
     } catch (error) {
+        console.log(error);
         
         res.status(500).json(
             {
